@@ -2,207 +2,16 @@
 @section('title', 'Contacts')
 
 @section('content')
-<style>
-    .card.contact-card {
-        max-width: 100%;
-        border: none;
-        background: white;
-        border-radius: 1rem;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    }
-
-    .table {
-        margin-bottom: 0;
-    }
-
-    .table td {
-        padding: 1rem 1.5rem;
-        border-bottom: 1px solid #f1f3f4;
-    }
-
-    .table thead th {
-        padding: 1rem 1.5rem;
-        color: #5f6368;
-        font-size: 0.875rem;
-        border-bottom: 2px solid #e8eaed;
-        background: #f8f9fa;
-    }
-
-    .contact-info {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-    }
-
-    .contact-icon-wrapper {
-        position: relative;
-    }
-
-    .contact-icon {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background: #e8eaed;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.2s ease;
-    }
-
-    .contact-checkbox {
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        opacity: 0;
-        transition: opacity 0.2s ease;
-        z-index: 2;
-        width: 20px;
-        height: 20px;
-    }
-
-    .contact-icon-wrapper {
-        position: relative;
-        width: 40px;
-        height: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .contact-icon {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background: #e8eaed;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.2s ease;
-    }
-
-    tr:hover .contact-icon {
-        visibility: hidden;
-    }
-
-    tr:hover .contact-checkbox {
-        opacity: 1;
-    }
-
-    .contact-icon-wrapper:has(.contact-checkbox:checked) .contact-icon {
-        visibility: hidden;
-    }
-
-    .contact-icon-wrapper:has(.contact-checkbox:checked) .contact-checkbox {
-        opacity: 1;
-    }
-
-    .contact-details {
-        display: flex;
-        flex-direction: column;
-        gap: 0.25rem;
-    }
-
-    .contact-name {
-        font-weight: 500;
-        color: #202124;
-    }
-
-    .contact-email, .contact-tel {
-        font-size: 0.875rem;
-        color: #5f6368;
-    }
-
-    .badge {
-        background: #e8eaed;
-        color: #5f6368;
-        font-size: 0.875rem;
-        padding: 0.5rem 1rem;
-        border-radius: 1rem;
-    }
-
-    .icon-actions {
-        opacity: 0;
-        transition: opacity 0.2s ease;
-    }
-
-    .icon-actions i {
-        width: 36px;
-        height: 36px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 50%;
-        color: #5f6368;
-        transition: all 0.2s ease;
-    }
-
-    .icon-actions i:hover {
-        background: #f1f3f4;
-        color: #202124;
-    }
-
-    tr:hover .icon-actions {
-        opacity: 1;
-    }
-
-    .contact-icon-wrapper:has(.contact-checkbox:checked) .contact-icon {
-        display: none;
-    }
-    
-    .selection-header {
-        background: #e8f0fe;
-        color: #1a73e8;
-        display: none;
-    }
-    
-    .selection-header td {
-        padding: 1rem 1.5rem;
-        font-weight: 500;
-    }
-    
-    .selection-header .delete-selected {
-        cursor: pointer;
-        padding: 8px;
-        border-radius: 50%;
-        transition: all 0.2s ease;
-    }
-    
-    .selection-header .delete-selected:hover {
-        background: #d2e3fc;
-    }
-    /* Add these styles */
-        tr {
-            transition: background-color 0.2s ease;
-        }
-    
-        tr:hover {
-            background-color:rgb(225, 234, 245);
-        }
-    
-        tr:hover .contact-name {
-            color: #1a73e8;
-        }
-    
-        tr:hover .contact-email,
-        tr:hover .contact-tel {
-            color: #202124;
-        }
-    
-        tr:hover .badge {
-            background: #e8f0fe;
-            color: #1a73e8;
-        }
-    </style>
-
-<div class="card contact-card p-4 mt-4">
+<div class="card contact-card p-4 mt-1" style="max-height: 88vh; overflow-y: auto;">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <div class="d-flex align-items-center gap-2">
+        <div class="d-flex align-items-center gap-4">
             <h5 class="mb-0 fw-normal">Contacts</h5>
+            <div class="input-group" style="width: 500px;">
+                <span class="input-group-text" id="basic-addon1"><i class="bi bi-search"></i></span>
+                <input id="searchInput" type="text" class="form-control" placeholder="Rechercher..." aria-label="Search" aria-describedby="basic-addon1">
+            </div>
         </div>
     </div>
-
-    
 
     <div class="table-responsive">
         <table class="table align-middle">
@@ -221,18 +30,42 @@
                     </td>
                 </tr>
             </thead>
+            <style>
+                .contact-row:hover {
+                    color:rgb(121, 156, 179) !important; 
+                    cursor: pointer; 
+                }
+            </style>
+
+            <style>
+                .contact-row:hover .contact-info,
+                .contact-row:hover .contact-email,
+                .contact-row:hover .contact-tel {
+                    color: #0d6efd; /* Couleur primaire de Bootstrap */
+                }
+            </style>
+
+            <style>
+                thead {
+                    position: sticky;
+                    top: 0;
+                    background-color: white; /* Optional: to ensure the header has a background */
+                    z-index: 10; /* Optional: to ensure the header stays above other content */
+                }
+            </style>
+
             <tbody>
                 @forelse ($contacts as $contact)
-                    <tr>
+                    <tr class="contact-row" onclick="window.location='{{ route('contacts.show', ['name' => $contact->names, 'id' => $contact->id]) }}';">
                         <td>
                             <div class="contact-info">
                                 <label class="contact-icon-wrapper mb-0">
-                                    <input type="checkbox" class="form-check-input contact-checkbox">
+                                    <input type="checkbox" class="form-check-input contact-checkbox" onclick="event.stopPropagation();">
                                     <div class="contact-icon">
                                         <i class="bi bi-person-fill fs-4"></i>
                                     </div>
                                 </label>
-                                <span class="contact-name">{{ $contact->names }}</span>
+                                {{ $contact->names }}
                             </div>
                         </td>
                         <td class="contact-email">{{ $contact->email }}</td>
@@ -242,8 +75,15 @@
                         </td>
                         <td>
                             <div class="icon-actions d-flex gap-1 justify-content-end">
-                                <i class="bi bi-pencil" title="Modifier"></i>
-                                <i class="bi bi-trash" title="Supprimer"></i>
+                                <a href="{{ route('contacts.edit', ['name' => $contact->names, 'id' => $contact->id]) }}" style="text-decoration: none;">
+                                    <i class="bi bi-pencil" title="Modifier"></i>
+                                </a>
+                                <form action="{{ route('contacts.destroy', $contact->id) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce contact ?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit"><i class="bi bi-trash" title="Supprimer"></i></button>
+                                </form>                                    
+                                </a>
                             </div>
                         </td>
                     </tr>
@@ -284,5 +124,21 @@
                 cb.addEventListener('change', updateSelectionDisplay);
             });
         });
+
+        document.getElementById('searchInput').addEventListener('input', function() {
+        const searchValue = this.value.toLowerCase();
+        const rows = document.querySelectorAll('.contact-row');
+
+        rows.forEach(row => {
+            const name = row.querySelector('.contact-info').textContent.toLowerCase();
+            const email = row.querySelector('.contact-email').textContent.toLowerCase();
+            const tel = row.querySelector('.contact-tel').textContent.toLowerCase();
+            if (name.includes(searchValue) || email.includes(searchValue) || tel.includes(searchValue)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    });
     </script>
 @endsection

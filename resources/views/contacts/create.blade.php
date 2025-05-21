@@ -12,7 +12,7 @@
         </div>
     </div>
 
-    <form action="{{ route('contacts.store') }}" method="POST" class="p-4">
+    <form action="{{ route('contacts.store', ['id' => $contact->id ?? null]) }}" method="POST" class="p-4">
         @csrf
         <div class="d-flex flex-column gap-4" style="max-width: 500px;">
             <div class="mb-2">
@@ -26,7 +26,7 @@
                     <i class="bi bi-person text-muted"></i>
                 </span>
                 <input type="text" class="form-control form-control-lg border-start-0 @error('names') is-invalid @enderror" 
-                    id="names" name="names" value="{{ old('names') }}" 
+                    id="names" name="names" value="{{ $contact->names ?? '' }}" 
                     placeholder="Noms" required>
                 @error('names')
                     <div class="invalid-feedback d-block">{{ $message }}</div>
@@ -38,7 +38,7 @@
                     <i class="bi bi-envelope text-muted"></i>
                 </span>
                 <input type="email" class="form-control form-control-lg border-start-0 @error('email') is-invalid @enderror" 
-                    id="email" name="email" value="{{ old('email') }}" 
+                    id="email" name="email" value="{{ $contact->email ?? '' }}" 
                     placeholder="Email" required>
                 @error('email')
                     <div class="invalid-feedback d-block">{{ $message }}</div>
@@ -50,7 +50,7 @@
                     <i class="bi bi-telephone text-muted"></i>
                 </span>
                 <input type="tel" class="form-control form-control-lg border-start-0 @error('tel') is-invalid @enderror" 
-                    id="tel" name="tel" value="{{ old('tel') }}" 
+                    id="tel" name="tel" value="{{ $contact->tel ?? '' }}" 
                     placeholder="Téléphone" required>
                 @error('tel')
                     <div class="invalid-feedback d-block">{{ $message }}</div>
@@ -62,7 +62,7 @@
                     <i class="bi bi-tag text-muted"></i>
                 </span>
                 <input type="text" class="form-control form-control-lg border-start-0 @error('libele') is-invalid @enderror" 
-                    id="libele" name="libele" value="{{ old('libele') }}" 
+                    id="libele" name="libele" value="{{ $contact->libele ?? '' }}" 
                     placeholder="Libellé">
                 @error('libele')
                     <div class="invalid-feedback d-block">{{ $message }}</div>
@@ -72,7 +72,7 @@
 
         <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
             <a href="{{ route('contacts.index') }}" class="btn btn-light">Annuler</a>
-            <button type="submit" class="btn btn-primary px-4">Enregistrer</button>
+            <button type="submit" class="btn btn-primary px-4">{{$action ?? 'Modifier' }}</button>
         </div>
     </form>
 </div>

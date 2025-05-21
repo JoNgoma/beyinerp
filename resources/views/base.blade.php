@@ -9,7 +9,6 @@
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" />
-
   <style>
     body {
       padding-top: 64px;
@@ -42,17 +41,27 @@
         <span class="fw-normal">Contacts</span>
       </a>
 
-      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-        <ul class="navbar-nav gap-3">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav align-items-center gap-3">
           <li class="nav-item">
-            <button class="btn btn-link text-dark border-0">
-              <i class="bi bi-gear fs-5"></i>
-            </button>
+            <a href="#" class="nav-link text-dark">
+              <div class="d-flex align-items-center gap-2">
+                <i class="bi bi-gear fs-5"></i>
+                <span>Paramètres</span>
+              </div>
+            </a>
           </li>
           <li class="nav-item">
-            <button class="btn btn-link p-0">
-              <img src="https://ui-avatars.com/api/?name=User&background=random" class="rounded-circle" width="32" height="32">
-            </button>
+            <a href="#" class="nav-link text-dark">
+              <div class="d-flex align-items-center gap-2">
+                <img src="https://ui-avatars.com/api/?name=User&background=random" class="rounded-circle" width="32" height="32">
+                <span>Profil</span>
+              </div>
+            </a>
           </li>
         </ul>
       </div>
@@ -86,7 +95,7 @@
   </div>
 
   <!-- CONTENU PRINCIPAL SCROLLABLE -->
-  <main class="main-content">
+  <main class="main-content ">
     <div class="container">
       @yield('content')
     </div>
@@ -94,6 +103,7 @@
 
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
+  @vite(['resources/css/app.css', 'resources/css/index.css'])
 </body>
 
 </html>

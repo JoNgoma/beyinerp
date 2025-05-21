@@ -11,7 +11,8 @@ class contactController extends Controller
 {
     public function index():View
     {
-        $contacts = Contact::paginate(25, ['names', 'email', 'tel', 'libele']);
+        $contacts = Contact::orderBy('names', 'asc')->get();
+        // $contacts = Contact::paginate(25, ['id', 'names', 'email', 'tel', 'libele']);
         return view('contacts.index', [
             'contacts' => $contacts,
         ]);
@@ -19,36 +20,46 @@ class contactController extends Controller
 
     public function create(Request $request)
     {
-        return view('contacts.create');
+        return view('contacts.create', ['action'=>'Enregistrer']);
+    }
+    public function edit(Request $request, string $name, string $id)
+    {
+        $contact = Contact::where('id', $id)->firstOrFail();
+        return view('contacts.create', ['contact' => $contact]);
     }
     public function store(Request $request): RedirectResponse
     {
-        $contact = Contact::create([
-            'names' => $request->names,
-            'email' => $request->email,
-            'tel' => $request->tel,
-            'libele' => $request->libele,
-        ]);
-        
+        $id=$request->id;
+        if($id) {
+            $contact = Contact::findOrFail($id);
+            $contact->update([
+                'names' => $request->names,
+                'email' => $request->email,
+                'tel' => $request->tel,
+                'libele' => $request->libele,
+            ]);
+        } else {
+            $contact = Contact::create([
+                'names' => $request->names,
+                'email' => $request->email,
+                'tel' => $request->tel,
+                'libele' => $request->libele,
+            ]);
+        }
+        return redirect()->route('contacts.show', ['name' => $contact->names, 'id' => $contact->id])
+            ->with('success', $id ? 'Contact modifié avec succès' : 'Contact créé avec succès');
+    }
+    public function destroy(string $id): RedirectResponse
+    {
+        $contact = Contact::findOrFail($id);
+        $contact->delete();
         return redirect()->route('contacts.index')
-            ->with('success', 'Contact créé avec succès');
+            ->with('success', 'Contact supprimé avec succès');
     }
 
-    public function show(string $name, string $id): RedirectResponse | Contact | array
+    public function show(string $name, string $id): View
     {
         $contact = Contact::where('id', $id)->firstOrFail();
-        if ($name !== $contact->names) {
-            return to_route('contacts.show', ['name' => $contact->names, 'id' => $contact->id]);
-        }
-        //     if($name === $contact->names || $id!==$contact->id) {
-        //     return to_route('contacts.bad');
-        // }
-        return [
-            // 'id' => $contact->id,
-            'name' => $contact->names,
-            'email' => $contact->email,
-            'tel' => $contact->tel,
-            'libele' => $contact->libele,
-        ];
+        return view('contacts.show', ['contact' => $contact]);
     }
 }
