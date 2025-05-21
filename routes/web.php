@@ -4,13 +4,15 @@ use App\Http\Controllers\contactController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return ['link' => \route('contacts.show', ['name' => 'Johnson', 'tel' => '24381567890', 'lib' => 'test', 'id' => 0])];
+    return view('welcome');
 });
 
 Route::prefix('contacts')->name('contacts.')->controller(contactController::class)->group(function () {
     Route::get('/', 'index')->name('index'); 
     Route::get('/create', 'create')->name('create');
-    Route::post('/store', 'store')->name('store'); 
+    Route::get('/edit/{name}-{id}', 'edit')->name('edit'); 
+    Route::post('/store/{id?}', 'store')->name('store'); 
+    Route::delete('/destroy/{id}', 'destroy')->name('destroy'); 
     Route::get('/{name}-{id}', 'show')->name('show');
 });
 
